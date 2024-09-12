@@ -38,6 +38,8 @@ type Package struct {
 	Options    []string
 	Install    string
 	Changelog  string
+	Pacdeps    []ArchString
+	Gives      []ArchString
 }
 
 // PackageBase describes the fields of a pkgbuild that may not be overwritten
@@ -49,6 +51,7 @@ type PackageBase struct {
 	Epoch        string
 	Source       []ArchString
 	ValidPGPKeys []string
+	Repology     []string
 	NoExtract    []string
 	MD5Sums      []ArchString
 	SHA1Sums     []ArchString
@@ -78,7 +81,7 @@ type Srcinfo struct {
 // empty value. An empty ovrride is when a value is defined in the pkgbuild but
 // then overridden inside the package function to be empty.
 //
-// For example "pkgdesc=''" is an empty override on the pkgdesc which would
+// For example "pkgdesc=”" is an empty override on the pkgdesc which would
 // lead to the line "pkgdesc=" in the srcinfo.
 //
 // This value is used internally to store empty overrides, mainly to avoid

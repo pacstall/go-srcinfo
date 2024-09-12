@@ -86,6 +86,8 @@ func (psr *parser) setField(archKey, value string) error {
 		pkgbase.ValidPGPKeys = append(pkgbase.ValidPGPKeys, value)
 	case "noextract":
 		pkgbase.NoExtract = append(pkgbase.NoExtract, value)
+	case "repology":
+		pkgbase.Repology = append(pkgbase.Repology, value)
 	default:
 		found = false
 	}
@@ -174,6 +176,10 @@ func (psr *parser) setField(archKey, value string) error {
 		pkg.Provides = append(pkg.Provides, ArchString{arch, value})
 	case "replaces":
 		pkg.Replaces = append(pkg.Replaces, ArchString{arch, value})
+	case "pacdeps":
+		pkg.Pacdeps = append(pkg.Pacdeps, ArchString{arch, value})
+	case "gives":
+		pkg.Gives = append(pkg.Gives, ArchString{arch, value})
 	}
 
 	return nil
@@ -218,7 +224,8 @@ func parse(data string) (*Srcinfo, error) {
 	}
 
 	if psr.srcinfo.Pkgrel == "" {
-		return nil, fmt.Errorf("No pkgrel field")
+		// Needed because Pacstall implicitely has `1` for empty pkgrel.
+		psr.srcinfo.Pkgrel = "1"
 	}
 
 	if len(psr.srcinfo.Arch) == 0 {
@@ -290,6 +297,7 @@ func ParseFile(path string) (*Srcinfo, error) {
 }
 
 // Parse parses a srcinfo in string form. Parsing will fail if:
+//
 //	A srcinfo does not contain all required fields
 //	The same pkgname is specified more then once
 //	arch is missing
@@ -300,6 +308,7 @@ func ParseFile(path string) (*Srcinfo, error) {
 //	An empty value is specified
 //
 // Required fields are:
+//
 //	pkgbase
 //	pkname
 //	arch

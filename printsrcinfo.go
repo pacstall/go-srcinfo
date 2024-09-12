@@ -48,11 +48,12 @@ func appendMultiArchValue(buffer *bytes.Buffer, key string, values []ArchString)
 	}
 }
 
-//String generates a string that should be similar to the srcinfo data used to
-//create this Srcinfo struct. Fields will be printed in order and with the same
-//whitespcae rules that `makepkg --printsrcinfo` uses.
+// String generates a string that should be similar to the srcinfo data used to
+// create this Srcinfo struct. Fields will be printed in order and with the same
+// whitespace rules that `makepkg --printsrcinfo` uses.
 //
 // The order of each global field is as follows:
+//
 //	pkgdesc
 //	pkgver
 //	pkgrel
@@ -83,6 +84,7 @@ func appendMultiArchValue(buffer *bytes.Buffer, key string, values []ArchString)
 //	sha512sums
 //
 // The order of each overwritten field is as follows:
+//
 //	pkgdesc
 //	url
 //	install
@@ -104,6 +106,7 @@ func (si *Srcinfo) String() string {
 	appendHeader(&buffer, "pkgbase", si.Pkgbase)
 
 	appendValue(&buffer, "pkgdesc", si.Pkgdesc)
+	appendMultiArchValue(&buffer, "gives", si.Gives)
 	appendValue(&buffer, "pkgver", si.Pkgver)
 	appendValue(&buffer, "pkgrel", si.Pkgrel)
 	appendValue(&buffer, "epoch", si.Epoch)
@@ -120,6 +123,7 @@ func (si *Srcinfo) String() string {
 	appendMultiArchValue(&buffer, "provides", si.Provides)
 	appendMultiArchValue(&buffer, "conflicts", si.Conflicts)
 	appendMultiArchValue(&buffer, "replaces", si.Replaces)
+	appendMultiValue(&buffer, "repology", si.Repology)
 	appendMultiValue(&buffer, "noextract", si.NoExtract)
 	appendMultiValue(&buffer, "options", si.Options)
 	appendMultiValue(&buffer, "backup", si.Backup)
@@ -131,6 +135,7 @@ func (si *Srcinfo) String() string {
 	appendMultiArchValue(&buffer, "sha256sums", si.SHA256Sums)
 	appendMultiArchValue(&buffer, "sha384sums", si.SHA384Sums)
 	appendMultiArchValue(&buffer, "sha512sums", si.SHA512Sums)
+	appendMultiArchValue(&buffer, "pacdeps", si.Pacdeps)
 
 	for n, pkg := range si.Packages {
 		appendHeader(&buffer, "\npkgname", si.Packages[n].Pkgname)
@@ -149,6 +154,7 @@ func (si *Srcinfo) String() string {
 		appendMultiArchValue(&buffer, "replaces", pkg.Replaces)
 		appendMultiValue(&buffer, "options", pkg.Options)
 		appendMultiValue(&buffer, "backup", pkg.Backup)
+		appendMultiArchValue(&buffer, "pacdeps", pkg.Pacdeps)
 	}
 
 	return buffer.String()
