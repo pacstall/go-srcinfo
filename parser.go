@@ -88,6 +88,8 @@ func (psr *parser) setField(archKey, value string) error {
 		pkgbase.NoExtract = append(pkgbase.NoExtract, value)
 	case "repology":
 		pkgbase.Repology = append(pkgbase.Repology, value)
+	case "maintainer":
+		pkgbase.Maintainer = append(pkgbase.Maintainer, value)
 	default:
 		found = false
 	}
@@ -180,6 +182,16 @@ func (psr *parser) setField(archKey, value string) error {
 		pkg.Pacdeps = append(pkg.Pacdeps, ArchString{arch, value})
 	case "gives":
 		pkg.Gives = append(pkg.Gives, ArchString{arch, value})
+	case "breaks":
+		pkg.Breaks = append(pkg.Breaks, ArchString{arch, value})
+	case "enhances":
+		pkg.Enhances = append(pkg.Enhances, ArchString{arch, value})
+	case "recommends":
+		pkg.Recommends = append(pkg.Recommends, ArchString{arch, value})
+	case "suggests":
+		pkg.Suggests = append(pkg.Suggests, ArchString{arch, value})
+	case "priority":
+		pkg.Priority = append(pkg.Priority, ArchString{arch, value})
 	}
 
 	return nil

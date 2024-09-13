@@ -40,6 +40,11 @@ type Package struct {
 	Changelog  string
 	Pacdeps    []ArchString
 	Gives      []ArchString
+	Breaks     []ArchString
+	Enhances   []ArchString
+	Recommends []ArchString
+	Suggests   []ArchString
+	Priority   []ArchString
 }
 
 // PackageBase describes the fields of a pkgbuild that may not be overwritten
@@ -52,6 +57,7 @@ type PackageBase struct {
 	Source       []ArchString
 	ValidPGPKeys []string
 	Repology     []string
+	Maintainer   []string
 	NoExtract    []string
 	MD5Sums      []ArchString
 	SHA1Sums     []ArchString
