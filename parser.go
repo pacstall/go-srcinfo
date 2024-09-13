@@ -2,7 +2,7 @@ package srcinfo
 
 import (
 	"fmt"
-	"io/ioutil"
+	"os"
 	"strings"
 )
 
@@ -307,7 +307,7 @@ func checkArch(arches []string, key string, arch string) error {
 
 // ParseFile parses a srcinfo file as specified by path.
 func ParseFile(path string) (*Srcinfo, error) {
-	file, err := ioutil.ReadFile(path)
+	file, err := os.ReadFile(path)
 	if err != nil {
 		return nil, fmt.Errorf("Unable to read file: %s: %s", path, err.Error())
 	}
