@@ -19,7 +19,7 @@ package main
 
 import (
 	"fmt"
-	"github.com/Morganamilo/go-srcinfo"
+	"github.com/pacstall/go-srcinfo"
 )
 
 func main() {
@@ -39,7 +39,7 @@ package main
 
 import (
 	"fmt"
-	"github.com/Morganamilo/go-srcinfo"
+	"github.com/pacstall/go-srcinfo"
 )
 
 func main() {
@@ -61,7 +61,7 @@ package main
 
 import (
 	"fmt"
-	"github.com/Morganamilo/go-srcinfo"
+	"github.com/pacstall/go-srcinfo"
 )
 
 func main() {
@@ -87,7 +87,7 @@ package main
 
 import (
 	"fmt"
-	"github.com/Morganamilo/go-srcinfo"
+	"github.com/pacstall/go-srcinfo"
 )
 
 const str = `
