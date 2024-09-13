@@ -20,6 +20,14 @@ type ArchString struct {
 	Value string // Value
 }
 
+// DistroString describes string values that may be distro dependent.
+// For Example depends_jammy.
+// If Distro is an empty string then the field is not distro dependent.
+type DistroString struct {
+	Distro string // Architecture name
+	Value  string // Value
+}
+
 // Package describes the fields of a pkgbuild that may be overwritten by
 // in build_<pkgname> function.
 type Package struct {
@@ -45,6 +53,7 @@ type Package struct {
 	Recommends []ArchString
 	Suggests   []ArchString
 	Priority   []ArchString
+	Repology   []string
 }
 
 // PackageBase describes the fields of a pkgbuild that may not be overwritten
@@ -59,7 +68,6 @@ type PackageBase struct {
 	Incompatible []string
 	Source       []ArchString
 	ValidPGPKeys []string
-	Repology     []string
 	Maintainer   []string
 	NoExtract    []string
 	MD5Sums      []ArchString

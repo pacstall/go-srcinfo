@@ -86,8 +86,6 @@ func (psr *parser) setField(archKey, value string) error {
 		pkgbase.ValidPGPKeys = append(pkgbase.ValidPGPKeys, value)
 	case "noextract":
 		pkgbase.NoExtract = append(pkgbase.NoExtract, value)
-	case "repology":
-		pkgbase.Repology = append(pkgbase.Repology, value)
 	case "maintainer":
 		pkgbase.Maintainer = append(pkgbase.Maintainer, value)
 	case "mask":
@@ -164,6 +162,8 @@ func (psr *parser) setField(archKey, value string) error {
 		pkg.Backup = append(pkg.Backup, value)
 	case "options":
 		pkg.Options = append(pkg.Options, value)
+	case "repology":
+		pkg.Repology = append(pkg.Repology, value)
 	default:
 		found = false
 	}
