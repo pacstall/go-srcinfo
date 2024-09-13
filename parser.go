@@ -90,6 +90,8 @@ func (psr *parser) setField(archKey, value string) error {
 		pkgbase.Repology = append(pkgbase.Repology, value)
 	case "maintainer":
 		pkgbase.Maintainer = append(pkgbase.Maintainer, value)
+	case "mask":
+		pkgbase.Mask = append(pkgbase.Mask, value)
 	default:
 		found = false
 	}

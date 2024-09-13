@@ -54,6 +54,7 @@ type PackageBase struct {
 	Pkgver       string
 	Pkgrel       string
 	Epoch        string
+	Mask         []string
 	Source       []ArchString
 	ValidPGPKeys []string
 	Repology     []string
