@@ -3,7 +3,7 @@
 //
 // Split packages and architecture dependent fields are fully supported.
 //
-// This Package aimes to parse srcinfos but not interpret them in any way.
+// This Package aims to parse srcinfos but not interpret them in any way.
 // All values are fundamentally strings, other tools should be used for
 // things such as dependency parsing, validity checking etc.
 package srcinfo
@@ -203,6 +203,34 @@ func mergeSplitPackage(base, split *Package) *Package {
 
 	if len(split.Replaces) != 0 {
 		pkg.Replaces = mergeArchSlice(pkg.Replaces, split.Replaces)
+	}
+
+	if len(split.Gives) != 0 {
+		pkg.Gives = mergeArchSlice(pkg.Gives, split.Gives)
+	}
+
+	if len(split.Breaks) != 0 {
+		pkg.Breaks = mergeArchSlice(pkg.Breaks, split.Breaks)
+	}
+
+	if len(split.Enhances) != 0 {
+		pkg.Enhances = mergeArchSlice(pkg.Enhances, split.Enhances)
+	}
+
+	if len(split.Pacdeps) != 0 {
+		pkg.Pacdeps = mergeArchSlice(pkg.Pacdeps, split.Pacdeps)
+	}
+
+	if len(split.Recommends) != 0 {
+		pkg.Recommends = mergeArchSlice(pkg.Recommends, split.Recommends)
+	}
+
+	if len(split.Suggests) != 0 {
+		pkg.Suggests = mergeArchSlice(pkg.Suggests, split.Suggests)
+	}
+
+	if len(split.Priority) != 0 {
+		pkg.Priority = mergeArchSlice(pkg.Priority, split.Priority)
 	}
 
 	if len(split.Backup) != 0 {

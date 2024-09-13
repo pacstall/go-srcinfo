@@ -241,7 +241,8 @@ func parse(data string) (*Srcinfo, error) {
 	}
 
 	if len(psr.srcinfo.Arch) == 0 {
-		return nil, fmt.Errorf("No arch field")
+		psr.srcinfo.Arch = []string{"any"}
+		// return nil, fmt.Errorf("No arch field")
 	}
 
 	return psr.srcinfo, nil
@@ -278,7 +279,7 @@ func splitArchFromKey(key string) (string, string) {
 }
 
 // checkArg checks that the arch from an arch dependent string is actually
-// defined inside of the srcinfo and speicifly disallows the arch "any" as it
+// defined inside of the srcinfo and specifically disallows the arch "any" as it
 // is not a real arch
 func checkArch(arches []string, key string, arch string) error {
 	if arch == "" {
