@@ -92,6 +92,10 @@ func (psr *parser) setField(archKey, value string) error {
 		pkgbase.Maintainer = append(pkgbase.Maintainer, value)
 	case "mask":
 		pkgbase.Mask = append(pkgbase.Mask, value)
+	case "compatible":
+		pkgbase.Compatible = append(pkgbase.Compatible, value)
+	case "incompatible":
+		pkgbase.Incompatible = append(pkgbase.Incompatible, value)
 	default:
 		found = false
 	}

@@ -129,6 +129,8 @@ func (si *Srcinfo) String() string {
 	appendMultiArchValue(&buffer, "suggests", si.Suggests)
 	appendMultiArchValue(&buffer, "priority", si.Priority)
 	appendMultiValue(&buffer, "mask", si.Mask)
+	appendMultiValue(&buffer, "incompatible", si.Incompatible)
+	appendMultiValue(&buffer, "compatible", si.Compatible)
 	appendMultiValue(&buffer, "maintainer", si.Maintainer)
 	appendMultiValue(&buffer, "repology", si.Repology)
 	appendMultiValue(&buffer, "noextract", si.NoExtract)
