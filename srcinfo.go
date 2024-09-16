@@ -12,19 +12,12 @@ import (
 	"fmt"
 )
 
-// ArchString describes string values that may be architecture dependent.
+// ArchDistroString describes string values that may be architecture dependent.
 // For Example depends_x86_64.
 // If Arch is an empty string then the field is not architecture dependent.
-type ArchString struct {
-	Arch  string // Architecture name
-	Value string // Value
-}
-
-// DistroString describes string values that may be distro dependent.
-// For Example depends_jammy.
-// If Distro is an empty string then the field is not distro dependent.
-type DistroString struct {
-	Distro string // Architecture name
+type ArchDistroString struct {
+	Arch   string // Architecture name
+	Distro string // Distribution
 	Value  string // Value
 }
 
@@ -37,22 +30,22 @@ type Package struct {
 	URL        string
 	License    []string
 	Groups     []string
-	Depends    []ArchString
-	OptDepends []ArchString
-	Provides   []ArchString
-	Conflicts  []ArchString
-	Replaces   []ArchString
+	Depends    []ArchDistroString
+	OptDepends []ArchDistroString
+	Provides   []ArchDistroString
+	Conflicts  []ArchDistroString
+	Replaces   []ArchDistroString
 	Backup     []string
 	Options    []string
 	Install    string
 	Changelog  string
-	Pacdeps    []ArchString
-	Gives      []ArchString
-	Breaks     []ArchString
-	Enhances   []ArchString
-	Recommends []ArchString
-	Suggests   []ArchString
-	Priority   []ArchString
+	Pacdeps    []ArchDistroString
+	Gives      []ArchDistroString
+	Breaks     []ArchDistroString
+	Enhances   []ArchDistroString
+	Recommends []ArchDistroString
+	Suggests   []ArchDistroString
+	Priority   []ArchDistroString
 	Repology   []string
 }
 
@@ -66,19 +59,19 @@ type PackageBase struct {
 	Mask         []string
 	Compatible   []string
 	Incompatible []string
-	Source       []ArchString
+	Source       []ArchDistroString
 	ValidPGPKeys []string
 	Maintainer   []string
 	NoExtract    []string
-	MD5Sums      []ArchString
-	SHA1Sums     []ArchString
-	SHA224Sums   []ArchString
-	SHA256Sums   []ArchString
-	SHA384Sums   []ArchString
-	SHA512Sums   []ArchString
-	B2Sums       []ArchString
-	MakeDepends  []ArchString
-	CheckDepends []ArchString
+	MD5Sums      []ArchDistroString
+	SHA1Sums     []ArchDistroString
+	SHA224Sums   []ArchDistroString
+	SHA256Sums   []ArchDistroString
+	SHA384Sums   []ArchDistroString
+	SHA512Sums   []ArchDistroString
+	B2Sums       []ArchDistroString
+	MakeDepends  []ArchDistroString
+	CheckDepends []ArchDistroString
 }
 
 // Srcinfo represents a full srcinfo. All global fields are defined here while
@@ -149,9 +142,9 @@ func (si *Srcinfo) SplitPackage(pkgname string) (*Package, error) {
 	return nil, fmt.Errorf("Package \"%s\" is not part of the package base \"%s\"", pkgname, si.Pkgbase)
 }
 
-func mergeArchSlice(global, override []ArchString) []ArchString {
+func mergeArchSlice(global, override []ArchDistroString) []ArchDistroString {
 	overridden := make(map[string]struct{})
-	merged := make([]ArchString, 0, len(override))
+	merged := make([]ArchDistroString, 0, len(override))
 
 	for _, v := range override {
 		overridden[v.Arch] = struct{}{}
