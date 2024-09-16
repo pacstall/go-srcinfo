@@ -34,17 +34,22 @@ func appendMultiValue(buffer *bytes.Buffer, key string, values []string) {
 	}
 }
 
-func appendMultiArchValue(buffer *bytes.Buffer, key string, values []ArchString) {
+func appendMultiArchValue(buffer *bytes.Buffer, key string, values []ArchDistroString) {
 	for _, value := range values {
 		if value.Value == EmptyOverride {
 			value.Value = ""
 		}
 
-		if value.Arch == "" {
-			buffer.WriteString("\t" + key + " = " + value.Value + "\n")
-		} else {
-			buffer.WriteString("\t" + key + "_" + value.Arch + " = " + value.Value + "\n")
+		buffer.WriteString("\t" + key)
+		if value.Distro != "" {
+			buffer.WriteString("_" + value.Distro)
 		}
+
+		if value.Arch != "" {
+			buffer.WriteString("_" + value.Arch)
+		}
+
+		buffer.WriteString(" = " + value.Value + "\n")
 	}
 }
 

@@ -1,7 +1,7 @@
 package srcinfo
 
 import (
-	"io/ioutil"
+	"os"
 	"path/filepath"
 	"strings"
 	"testing"
@@ -24,7 +24,7 @@ data:
 			}
 		}
 
-		t.Errorf("%s Line %d \"%s\" can not be found in source file", name, line, dataLine)
+		t.Errorf("%s Line %d \"%s\" can not be found in source file. %v", name, line, dataLine, fileLines)
 	}
 }
 
@@ -37,7 +37,7 @@ func TestPrintSrcinfo(t *testing.T) {
 			continue
 		}
 
-		file, err := ioutil.ReadFile(path)
+		file, err := os.ReadFile(path)
 		if err != nil {
 			t.Errorf("Unable to read file: %s: %s", path, err.Error())
 			continue

@@ -63,7 +63,7 @@ func (psr *parser) setField(archKey, value string) error {
 	}
 
 	pkgbase := &psr.srcinfo.PackageBase
-	key, arch := splitArchFromKey(archKey)
+	key, distro, arch := splitDistroArchFromKey(psr.srcinfo.Arch, archKey)
 	err = checkArch(psr.srcinfo.Arch, archKey, arch)
 	if err != nil {
 		return err
@@ -110,25 +110,25 @@ func (psr *parser) setField(archKey, value string) error {
 	found = true
 	switch key {
 	case "source":
-		pkgbase.Source = append(pkgbase.Source, ArchString{arch, value})
+		pkgbase.Source = append(pkgbase.Source, ArchDistroString{arch, distro, value})
 	case "md5sums":
-		pkgbase.MD5Sums = append(pkgbase.MD5Sums, ArchString{arch, value})
+		pkgbase.MD5Sums = append(pkgbase.MD5Sums, ArchDistroString{arch, distro, value})
 	case "sha1sums":
-		pkgbase.SHA1Sums = append(pkgbase.SHA1Sums, ArchString{arch, value})
+		pkgbase.SHA1Sums = append(pkgbase.SHA1Sums, ArchDistroString{arch, distro, value})
 	case "sha224sums":
-		pkgbase.SHA224Sums = append(pkgbase.SHA224Sums, ArchString{arch, value})
+		pkgbase.SHA224Sums = append(pkgbase.SHA224Sums, ArchDistroString{arch, distro, value})
 	case "sha256sums":
-		pkgbase.SHA256Sums = append(pkgbase.SHA256Sums, ArchString{arch, value})
+		pkgbase.SHA256Sums = append(pkgbase.SHA256Sums, ArchDistroString{arch, distro, value})
 	case "sha384sums":
-		pkgbase.SHA384Sums = append(pkgbase.SHA384Sums, ArchString{arch, value})
+		pkgbase.SHA384Sums = append(pkgbase.SHA384Sums, ArchDistroString{arch, distro, value})
 	case "sha512sums":
-		pkgbase.SHA512Sums = append(pkgbase.SHA512Sums, ArchString{arch, value})
+		pkgbase.SHA512Sums = append(pkgbase.SHA512Sums, ArchDistroString{arch, distro, value})
 	case "b2sums":
-		pkgbase.B2Sums = append(pkgbase.B2Sums, ArchString{arch, value})
+		pkgbase.B2Sums = append(pkgbase.B2Sums, ArchDistroString{arch, distro, value})
 	case "makedepends":
-		pkgbase.MakeDepends = append(pkgbase.MakeDepends, ArchString{arch, value})
+		pkgbase.MakeDepends = append(pkgbase.MakeDepends, ArchDistroString{arch, distro, value})
 	case "checkdepends":
-		pkgbase.CheckDepends = append(pkgbase.CheckDepends, ArchString{arch, value})
+		pkgbase.CheckDepends = append(pkgbase.CheckDepends, ArchDistroString{arch, distro, value})
 	default:
 		found = false
 	}
@@ -175,29 +175,29 @@ func (psr *parser) setField(archKey, value string) error {
 	// pkgbase or pkgname + arch dependent
 	switch key {
 	case "depends":
-		pkg.Depends = append(pkg.Depends, ArchString{arch, value})
+		pkg.Depends = append(pkg.Depends, ArchDistroString{arch, distro, value})
 	case "optdepends":
-		pkg.OptDepends = append(pkg.OptDepends, ArchString{arch, value})
+		pkg.OptDepends = append(pkg.OptDepends, ArchDistroString{arch, distro, value})
 	case "conflicts":
-		pkg.Conflicts = append(pkg.Conflicts, ArchString{arch, value})
+		pkg.Conflicts = append(pkg.Conflicts, ArchDistroString{arch, distro, value})
 	case "provides":
-		pkg.Provides = append(pkg.Provides, ArchString{arch, value})
+		pkg.Provides = append(pkg.Provides, ArchDistroString{arch, distro, value})
 	case "replaces":
-		pkg.Replaces = append(pkg.Replaces, ArchString{arch, value})
+		pkg.Replaces = append(pkg.Replaces, ArchDistroString{arch, distro, value})
 	case "pacdeps":
-		pkg.Pacdeps = append(pkg.Pacdeps, ArchString{arch, value})
+		pkg.Pacdeps = append(pkg.Pacdeps, ArchDistroString{arch, distro, value})
 	case "gives":
-		pkg.Gives = append(pkg.Gives, ArchString{arch, value})
+		pkg.Gives = append(pkg.Gives, ArchDistroString{arch, distro, value})
 	case "breaks":
-		pkg.Breaks = append(pkg.Breaks, ArchString{arch, value})
+		pkg.Breaks = append(pkg.Breaks, ArchDistroString{arch, distro, value})
 	case "enhances":
-		pkg.Enhances = append(pkg.Enhances, ArchString{arch, value})
+		pkg.Enhances = append(pkg.Enhances, ArchDistroString{arch, distro, value})
 	case "recommends":
-		pkg.Recommends = append(pkg.Recommends, ArchString{arch, value})
+		pkg.Recommends = append(pkg.Recommends, ArchDistroString{arch, distro, value})
 	case "suggests":
-		pkg.Suggests = append(pkg.Suggests, ArchString{arch, value})
+		pkg.Suggests = append(pkg.Suggests, ArchDistroString{arch, distro, value})
 	case "priority":
-		pkg.Priority = append(pkg.Priority, ArchString{arch, value})
+		pkg.Priority = append(pkg.Priority, ArchDistroString{arch, distro, value})
 	}
 
 	return nil
@@ -275,13 +275,39 @@ func splitPair(line string) (string, string, error) {
 
 // splitArchFromKey splits up architecture dependent field names, separating
 // the field name from the architecture they depend on.
-func splitArchFromKey(key string) (string, string) {
-	split := strings.SplitN(key, "_", 2)
-	if len(split) == 2 {
-		return split[0], split[1]
+func splitDistroArchFromKey(arches []string, key string) ( /* name */ string /* distro */, string /* arch */, string) {
+	split := strings.SplitN(key, "_", 3)
+
+	// possible cases: name_distro_arch, name_distro, name_arch
+	if len(split) == 3 {
+		arch := split[2]
+		// treat cases like name_x86_64
+		if checkArch(arches, key, arch) != nil {
+			// possibly in a case like name_x86_64 or invalid arch
+			arch = split[1] + "_" + split[2]
+			if checkArch(arches, key, arch) != nil {
+				// invalid arch so it's a distro
+				return split[0], arch, ""
+			}
+
+			// valid arch but no distro name
+			return split[0], "", arch
+
+		}
+		// name_distro_arch
+		return split[0], split[1], split[2]
 	}
 
-	return split[0], ""
+	// name_arch, name_distro
+	if len(split) == 2 {
+		if checkArch(arches, key, split[1]) == nil {
+			return split[0], "", split[1]
+		}
+
+		return split[0], split[1], ""
+	}
+
+	return split[0], "", ""
 }
 
 // checkArg checks that the arch from an arch dependent string is actually

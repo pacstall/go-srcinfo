@@ -2,6 +2,6 @@ pkgbase = foo
 	arch  = any
 	pkgver = 1
 	pkgrel = 1
-	source_any = foo
+	source_distro_any = foo
 
 pkgname = foo

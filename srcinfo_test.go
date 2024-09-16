@@ -74,6 +74,7 @@ var goodSrcinfos = [...]string{
 	"als-controller",
 	"alt-git",
 	"an",
+	"an1",
 	"anki-sync-server-git",
 	"anoise-community-extension3",
 	"ansible-container",
@@ -724,8 +725,6 @@ func TestBadSrcinfos(t *testing.T) {
 		_, err := ParseFile(path)
 		if err == nil {
 			t.Errorf("%s parsed when it should have errored", name)
-		} else {
-			t.Log(err)
 		}
 	}
 }
