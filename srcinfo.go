@@ -24,54 +24,52 @@ type ArchDistroString struct {
 // Package describes the fields of a pkgbuild that may be overwritten by
 // in build_<pkgname> function.
 type Package struct {
-	Pkgname    string
-	Pkgdesc    string
-	Arch       []string
-	URL        string
-	License    []string
-	Groups     []string
-	Depends    []ArchDistroString
-	OptDepends []ArchDistroString
-	Provides   []ArchDistroString
-	Conflicts  []ArchDistroString
-	Replaces   []ArchDistroString
-	Backup     []string
-	Options    []string
-	Install    string
-	Changelog  string
-	Pacdeps    []ArchDistroString
-	Gives      []ArchDistroString
-	Breaks     []ArchDistroString
-	Enhances   []ArchDistroString
-	Recommends []ArchDistroString
-	Suggests   []ArchDistroString
-	Priority   []ArchDistroString
-	Repology   []string
+	Pkgname        string
+	Pkgdesc        string
+	URL            string
+	Priority       string
+	Arch           []string
+	License        []string
+	Gives          []ArchDistroString
+	Depends        []ArchDistroString
+	CheckDepends   []ArchDistroString
+	OptDepends     []ArchDistroString
+	Pacdeps        []ArchDistroString
+	CheckConflicts []ArchDistroString
+	Conflicts      []ArchDistroString
+	Provides       []ArchDistroString
+	Breaks         []ArchDistroString
+	Replaces       []ArchDistroString
+	Enhances       []ArchDistroString
+	Recommends     []ArchDistroString
+	Suggests       []ArchDistroString
+	Backup         []string
+	Repology       []string
 }
 
 // PackageBase describes the fields of a pkgbuild that may not be overwritten
 // in package_<pkgname> function.
 type PackageBase struct {
-	Pkgbase      string
-	Pkgver       string
-	Pkgrel       string
-	Epoch        string
-	Mask         []string
-	Compatible   []string
-	Incompatible []string
-	Source       []ArchDistroString
-	ValidPGPKeys []string
-	Maintainer   []string
-	NoExtract    []string
-	MD5Sums      []ArchDistroString
-	SHA1Sums     []ArchDistroString
-	SHA224Sums   []ArchDistroString
-	SHA256Sums   []ArchDistroString
-	SHA384Sums   []ArchDistroString
-	SHA512Sums   []ArchDistroString
-	B2Sums       []ArchDistroString
-	MakeDepends  []ArchDistroString
-	CheckDepends []ArchDistroString
+	Pkgbase         string
+	Pkgver          string
+	Pkgrel          string
+	Epoch           string
+	Mask            []string
+	Compatible      []string
+	Incompatible    []string
+	Maintainer      []string
+	Source          []ArchDistroString
+	NoExtract       []string
+	NoSubmodules    []string
+	MD5Sums         []ArchDistroString
+	SHA1Sums        []ArchDistroString
+	SHA224Sums      []ArchDistroString
+	SHA256Sums      []ArchDistroString
+	SHA384Sums      []ArchDistroString
+	SHA512Sums      []ArchDistroString
+	B2Sums          []ArchDistroString
+	MakeDepends     []ArchDistroString
+	MakeConflicts   []ArchDistroString
 }
 
 // Srcinfo represents a full srcinfo. All global fields are defined here while
