@@ -82,18 +82,18 @@ func (psr *parser) setField(archKey, value string) error {
 		pkgbase.Pkgrel = value
 	case "epoch":
 		pkgbase.Epoch = value
-	case "validpgpkeys":
-		pkgbase.ValidPGPKeys = append(pkgbase.ValidPGPKeys, value)
-	case "noextract":
-		pkgbase.NoExtract = append(pkgbase.NoExtract, value)
-	case "maintainer":
-		pkgbase.Maintainer = append(pkgbase.Maintainer, value)
 	case "mask":
 		pkgbase.Mask = append(pkgbase.Mask, value)
 	case "compatible":
 		pkgbase.Compatible = append(pkgbase.Compatible, value)
 	case "incompatible":
 		pkgbase.Incompatible = append(pkgbase.Incompatible, value)
+	case "maintainer":
+		pkgbase.Maintainer = append(pkgbase.Maintainer, value)
+	case "noextract":
+		pkgbase.NoExtract = append(pkgbase.NoExtract, value)
+	case "nosubmodules":
+		pkgbase.NoSubmodules = append(pkgbase.NoSubmodules, value)
 	default:
 		found = false
 	}
@@ -127,8 +127,8 @@ func (psr *parser) setField(archKey, value string) error {
 		pkgbase.B2Sums = append(pkgbase.B2Sums, ArchDistroString{arch, distro, value})
 	case "makedepends":
 		pkgbase.MakeDepends = append(pkgbase.MakeDepends, ArchDistroString{arch, distro, value})
-	case "checkdepends":
-		pkgbase.CheckDepends = append(pkgbase.CheckDepends, ArchDistroString{arch, distro, value})
+	case "makeconflicts":
+		pkgbase.MakeConflicts = append(pkgbase.MakeConflicts, ArchDistroString{arch, distro, value})
 	default:
 		found = false
 	}
@@ -148,20 +148,14 @@ func (psr *parser) setField(archKey, value string) error {
 		pkg.Pkgdesc = value
 	case "url":
 		pkg.URL = value
-	case "license":
-		pkg.License = append(pkg.License, value)
-	case "install":
-		pkg.Install = value
-	case "changelog":
-		pkg.Changelog = value
-	case "groups":
-		pkg.Groups = append(pkg.Groups, value)
+	case "priority":
+		pkg.Priority = value
 	case "arch":
 		pkg.Arch = append(pkg.Arch, value)
+	case "license":
+		pkg.License = append(pkg.License, value)
 	case "backup":
 		pkg.Backup = append(pkg.Backup, value)
-	case "options":
-		pkg.Options = append(pkg.Options, value)
 	case "repology":
 		pkg.Repology = append(pkg.Repology, value)
 	default:
@@ -174,30 +168,32 @@ func (psr *parser) setField(archKey, value string) error {
 
 	// pkgbase or pkgname + arch dependent
 	switch key {
+	case "gives":
+		pkg.Gives = append(pkg.Gives, ArchDistroString{arch, distro, value})
 	case "depends":
 		pkg.Depends = append(pkg.Depends, ArchDistroString{arch, distro, value})
+	case "checkdepends":
+		pkgbase.CheckDepends = append(pkgbase.CheckDepends, ArchDistroString{arch, distro, value})
 	case "optdepends":
 		pkg.OptDepends = append(pkg.OptDepends, ArchDistroString{arch, distro, value})
+	case "pacdeps":
+		pkg.Pacdeps = append(pkg.Pacdeps, ArchDistroString{arch, distro, value})
+	case "checkconflicts":
+		pkgbase.CheckConflicts = append(pkgbase.CheckConflicts, ArchDistroString{arch, distro, value})
 	case "conflicts":
 		pkg.Conflicts = append(pkg.Conflicts, ArchDistroString{arch, distro, value})
 	case "provides":
 		pkg.Provides = append(pkg.Provides, ArchDistroString{arch, distro, value})
-	case "replaces":
-		pkg.Replaces = append(pkg.Replaces, ArchDistroString{arch, distro, value})
-	case "pacdeps":
-		pkg.Pacdeps = append(pkg.Pacdeps, ArchDistroString{arch, distro, value})
-	case "gives":
-		pkg.Gives = append(pkg.Gives, ArchDistroString{arch, distro, value})
 	case "breaks":
 		pkg.Breaks = append(pkg.Breaks, ArchDistroString{arch, distro, value})
+	case "replaces":
+		pkg.Replaces = append(pkg.Replaces, ArchDistroString{arch, distro, value})
 	case "enhances":
 		pkg.Enhances = append(pkg.Enhances, ArchDistroString{arch, distro, value})
 	case "recommends":
 		pkg.Recommends = append(pkg.Recommends, ArchDistroString{arch, distro, value})
 	case "suggests":
 		pkg.Suggests = append(pkg.Suggests, ArchDistroString{arch, distro, value})
-	case "priority":
-		pkg.Priority = append(pkg.Priority, ArchDistroString{arch, distro, value})
 	}
 
 	return nil
