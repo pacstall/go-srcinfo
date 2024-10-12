@@ -173,13 +173,13 @@ func (psr *parser) setField(archKey, value string) error {
 	case "depends":
 		pkg.Depends = append(pkg.Depends, ArchDistroString{arch, distro, value})
 	case "checkdepends":
-		pkgbase.CheckDepends = append(pkg.CheckDepends, ArchDistroString{arch, distro, value})
+		pkg.CheckDepends = append(pkg.CheckDepends, ArchDistroString{arch, distro, value})
 	case "optdepends":
 		pkg.OptDepends = append(pkg.OptDepends, ArchDistroString{arch, distro, value})
 	case "pacdeps":
 		pkg.Pacdeps = append(pkg.Pacdeps, ArchDistroString{arch, distro, value})
 	case "checkconflicts":
-		pkgbase.CheckConflicts = append(pkg.CheckConflicts, ArchDistroString{arch, distro, value})
+		pkg.CheckConflicts = append(pkg.CheckConflicts, ArchDistroString{arch, distro, value})
 	case "conflicts":
 		pkg.Conflicts = append(pkg.Conflicts, ArchDistroString{arch, distro, value})
 	case "provides":
