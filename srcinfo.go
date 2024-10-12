@@ -171,56 +171,64 @@ func mergeSplitPackage(base, split *Package) *Package {
 		pkg.Pkgdesc = split.Pkgdesc
 	}
 
-	if len(split.Arch) != 0 {
-		pkg.Arch = split.Arch
-	}
-
 	if split.URL != "" {
 		pkg.URL = split.URL
+	}
+	
+	if split.Priority != "" {
+		pkg.Priority = split.Priority
+	}
+	
+	if len(split.Arch) != 0 {
+		pkg.Arch = split.Arch
 	}
 
 	if len(split.License) != 0 {
 		pkg.License = split.License
 	}
 
-	if len(split.Groups) != 0 {
-		pkg.Groups = split.Groups
+	if len(split.Gives) != 0 {
+		pkg.Gives = mergeArchSlice(pkg.Gives, split.Gives)
 	}
 
 	if len(split.Depends) != 0 {
 		pkg.Depends = mergeArchSlice(pkg.Depends, split.Depends)
 	}
 
+	if len(split.CheckDepends) != 0 {
+		pkg.CheckDepends = mergeArchSlice(pkg.CheckDepends, split.CheckDepends)
+	}
+	
 	if len(split.OptDepends) != 0 {
 		pkg.OptDepends = mergeArchSlice(pkg.OptDepends, split.OptDepends)
 	}
 
-	if len(split.Provides) != 0 {
-		pkg.Provides = mergeArchSlice(pkg.Provides, split.Provides)
+	if len(split.Pacdeps) != 0 {
+		pkg.Pacdeps = mergeArchSlice(pkg.Pacdeps, split.Pacdeps)
 	}
 
+	if len(split.CheckConflicts) != 0 {
+		pkg.CheckConflicts = mergeArchSlice(pkg.CheckConflicts, split.CheckConflicts)
+	}
+	
 	if len(split.Conflicts) != 0 {
 		pkg.Conflicts = mergeArchSlice(pkg.Conflicts, split.Conflicts)
 	}
-
-	if len(split.Replaces) != 0 {
-		pkg.Replaces = mergeArchSlice(pkg.Replaces, split.Replaces)
-	}
-
-	if len(split.Gives) != 0 {
-		pkg.Gives = mergeArchSlice(pkg.Gives, split.Gives)
+	
+	if len(split.Provides) != 0 {
+		pkg.Provides = mergeArchSlice(pkg.Provides, split.Provides)
 	}
 
 	if len(split.Breaks) != 0 {
 		pkg.Breaks = mergeArchSlice(pkg.Breaks, split.Breaks)
 	}
+	
+	if len(split.Replaces) != 0 {
+		pkg.Replaces = mergeArchSlice(pkg.Replaces, split.Replaces)
+	}
 
 	if len(split.Enhances) != 0 {
 		pkg.Enhances = mergeArchSlice(pkg.Enhances, split.Enhances)
-	}
-
-	if len(split.Pacdeps) != 0 {
-		pkg.Pacdeps = mergeArchSlice(pkg.Pacdeps, split.Pacdeps)
 	}
 
 	if len(split.Recommends) != 0 {
@@ -231,24 +239,12 @@ func mergeSplitPackage(base, split *Package) *Package {
 		pkg.Suggests = mergeArchSlice(pkg.Suggests, split.Suggests)
 	}
 
-	if len(split.Priority) != 0 {
-		pkg.Priority = mergeArchSlice(pkg.Priority, split.Priority)
-	}
-
 	if len(split.Backup) != 0 {
 		pkg.Backup = split.Backup
 	}
 
-	if len(split.Options) != 0 {
-		pkg.Options = split.Options
-	}
-
-	if split.Changelog != "" {
-		pkg.Changelog = split.Changelog
-	}
-
-	if split.Install != "" {
-		pkg.Install = split.Install
+	if len(split.Repology) != 0 {
+		pkg.Repology = split.Repology
 	}
 
 	return pkg
