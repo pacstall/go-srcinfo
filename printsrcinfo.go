@@ -171,7 +171,7 @@ func (si *Srcinfo) String() string {
 		appendMultiArchValue(&buffer, "recommends", pkg.Recommends)
 		appendMultiArchValue(&buffer, "suggests", pkg.Suggests)
 		appendMultiValue(&buffer, "backup", pkg.Backup)
-		appendMultiValue(&buffer, "repology", si.Repology)
+		appendMultiValue(&buffer, "repology", pkg.Repology)
 	}
 
 	return buffer.String()
