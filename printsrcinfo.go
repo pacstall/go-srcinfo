@@ -159,7 +159,7 @@ func (si *Srcinfo) String() string {
 		appendMultiValue(&buffer, "license", pkg.License)
 		appendMultiArchValue(&buffer, "gives", pkg.Gives)
 		appendMultiArchValue(&buffer, "depends", pkg.Depends)
-		appendMultiArchValue(&buffer, "checkdepends", si.CheckDepends)
+		appendMultiArchValue(&buffer, "checkdepends", pkg.CheckDepends)
 		appendMultiArchValue(&buffer, "optdepends", pkg.OptDepends)
 		appendMultiArchValue(&buffer, "pacdeps", pkg.Pacdeps)
 		appendMultiArchValue(&buffer, "checkconflicts", pkg.CheckConflicts)
